@@ -51,8 +51,10 @@ sip_2:
     settle_time: 1
     incoming_call_file: ""
 tts:
-    platform: google_translate
+    platform: tts.piper
     language: en # might also be in en-US format, depending on the platform
+    options:
+        voice: de_DE-Homer-high
 webhook:
     id: sip_call_webhook_id
 ```
@@ -162,6 +164,7 @@ data:
         number: sip:**620@fritz.box
         message: hello!
         tts_language: en
+        tts_voice: de_DE-Homer-high
         cache_audio: true # If message should be cached in `cache_dir`. 
                           # Defaults to false. `cache_dir` must be configured in ha-sip config.
                           # Don't enable this for dynamic messages, you'll just fill your storage.
