@@ -11,7 +11,7 @@
         "armv7",
         "i386"
     ],
-    "image": "dirtyharryiv/{arch}-ha-sip",
+    "image": "dirtyharryiv/ha-sip",
     "init": "false",
     "startup": "application",
     "boot": "auto",
