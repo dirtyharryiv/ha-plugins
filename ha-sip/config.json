@@ -56,8 +56,11 @@
             "incoming_call_file": ""
         },
         "tts": {
-            "platform": "google_translate",
-            "language": "en"
+            "platform": "tts.google_translate",
+            "language": "en",
+            "options": {
+                "voice": "de_DE-Homer-High"
+            }
         },
         "webhook": {
             "id": "sip_call_webhook_id"
