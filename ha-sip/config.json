@@ -1,6 +1,6 @@
 {
     "name": "ha-sip",
-    "version": "3.9",
+    "version": "3.9.1",
     "slug": "ha-sip",
     "url": "https://github.com/dirtyharryiv/ha-plugins",
     "description": "Home-Assistant SIP Gateway",
@@ -11,7 +11,7 @@
         "armv7",
         "i386"
     ],
-    "image": "agellhaus/{arch}-ha-sip",
+    "image": "dirtyharryiv/{arch}-ha-sip",
     "init": "false",
     "startup": "application",
     "boot": "auto",

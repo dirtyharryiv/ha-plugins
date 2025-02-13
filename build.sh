@@ -28,7 +28,7 @@ case "$1" in
         contents="$(jq --indent 4 '.slug = "ha-sip-next"' $CONFIG_JSON)" && echo -E "${contents}" > $CONFIG_JSON
         contents="$(jq --indent 4 '.url = env.NEXT_REPO_URL' $CONFIG_JSON)" && echo -E "${contents}" > $CONFIG_JSON
         contents="$(jq --indent 4 '.description = "Home-Assistant SIP Gateway (next version)"' $CONFIG_JSON)" && echo -E "${contents}" > $CONFIG_JSON
-        contents="$(jq --indent 4 '.image = "agellhaus/{arch}-ha-sip-next"' $CONFIG_JSON)" && echo -E "${contents}" > $CONFIG_JSON
+        contents="$(jq --indent 4 '.image = "dirtyharryiv/{arch}-ha-sip-next"' $CONFIG_JSON)" && echo -E "${contents}" > $CONFIG_JSON
         # Change readme
         README=$TMP_URL/README.md
         sed -i -e 's/ha-plugins/ha-plugins-next/g' $README
@@ -50,7 +50,7 @@ case "$1" in
             homeassistant/amd64-builder:dev \
             --no-cache --aarch64 --amd64 \
             -t ha-sip -r $NEXT_REPO_URL -b next \
-            --docker-user agellhaus --docker-password "$DOCKER_HUB_PASSWORD"
+            --docker-user dirtyharryiv --docker-password "$DOCKER_HUB_PASSWORD"
         ;;
     build)
         echo "Building prod (all archs)..."
@@ -59,7 +59,7 @@ case "$1" in
             homeassistant/amd64-builder:dev \
             --no-cache --all \
             -t ha-sip -r $REPO_URL -b next \
-            --docker-user agellhaus --docker-password "$DOCKER_HUB_PASSWORD"
+            --docker-user dirtyharryiv --docker-password "$DOCKER_HUB_PASSWORD"
         ;;
     update)
         echo "Updating builder..."
