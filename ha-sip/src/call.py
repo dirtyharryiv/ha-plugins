@@ -370,12 +370,13 @@ class Call(pj.Call):
         message = menu['message']
         audio_file = menu['audio_file']
         language = menu['language']
+        voice = menu['voice']
         action = menu['action']
         post_action = menu['post_action']
         should_cache = menu['cache_audio']
         wait_for_audio_to_finish = menu['wait_for_audio_to_finish']
         if message:
-            self.play_message(message, language, should_cache, wait_for_audio_to_finish)
+            self.play_message(message, language, voice, should_cache, wait_for_audio_to_finish)
         if audio_file:
             self.play_audio_file(audio_file, should_cache, wait_for_audio_to_finish)
         if handle_action:
@@ -388,14 +389,14 @@ class Call(pj.Call):
             return
         self.command_handler.handle_command(action, self)
 
-    def play_message(self, message: str, language: str, should_cache: bool, wait_for_audio_to_finish: bool) -> None:
+    def play_message(self, message: str, language: str, voice: str, should_cache: bool, wait_for_audio_to_finish: bool) -> None:
         log(self.account.config.index, 'Playing message: %s' % message)
         cached_file = audio_cache.get_cached_file(should_cache, self.ha_config.cache_dir, 'message', message)
         if cached_file:
             self.set_current_playback({'type': 'message', 'message': message})
             self.play_wav_file(cached_file, False, wait_for_audio_to_finish)
             return
-        sound_file_name, must_be_deleted = ha.create_and_get_tts(self.ha_config, message, language)
+        sound_file_name, must_be_deleted = ha.create_and_get_tts(self.ha_config, message, language, voice)
         self.set_current_playback({'type': 'message', 'message': message})
         audio_cache.cache_file(should_cache, self.ha_config.cache_dir, 'message', message, sound_file_name)
         self.play_wav_file(sound_file_name, must_be_deleted, wait_for_audio_to_finish)

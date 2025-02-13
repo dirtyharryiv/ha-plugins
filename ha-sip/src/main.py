@@ -106,7 +106,7 @@ def main():
             incoming_call_config=load_menu_from_file(config.SIP3_INCOMING_CALL_FILE, 3),
         ),
     }
-    ha_config = ha.HaConfig(config.HA_BASE_URL, config.HA_TOKEN, config.TTS_PLATFORM, config.TTS_LANGUAGE, config.HA_WEBHOOK_ID, cache_dir)
+    ha_config = ha.HaConfig(config.HA_BASE_URL, config.HA_TOKEN, config.TTS_PLATFORM, config.TTS_LANGUAGE, config.TTS_VOICE, config.HA_WEBHOOK_ID, cache_dir)
     call_state = state.create()
     end_point = sip.create_endpoint(endpoint_config)
     sip_accounts = {}

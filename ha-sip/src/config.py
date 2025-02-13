@@ -39,6 +39,7 @@ SIP3_INCOMING_CALL_FILE = os.environ.get('SIP3_INCOMING_CALL_FILE', '')
 
 TTS_PLATFORM = os.environ.get('TTS_PLATFORM', '')
 TTS_LANGUAGE = os.environ.get('TTS_LANGUAGE', '')
+TTS_VOICE = os.environ.get('TTS_VOICE', '')
 
 HA_BASE_URL = os.environ.get('HA_BASE_URL', '')
 HA_TOKEN = os.environ.get('HA_TOKEN', '')

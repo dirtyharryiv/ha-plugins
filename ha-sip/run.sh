@@ -44,6 +44,7 @@ if test -f "$HOME_ASSISTANT_CONFIG_FILE"; then
 
     export TTS_PLATFORM="$(bashio::config 'tts.platform')"
     export TTS_LANGUAGE="$(bashio::config 'tts.language')"
+    export TTS_VOICE="$(bashio::config 'tts.options.voice')"
     export HA_WEBHOOK_ID="$(bashio::config 'webhook.id')"
 
     export HA_BASE_URL="http://supervisor/core/api"
