@@ -145,6 +145,7 @@ def create_and_get_tts(ha_config: HaConfig, message: str, language: str, voice: 
     error_file_name = os.path.join(constants.ROOT_PATH, 'sound/answer.wav')
     headers = ha_config.create_headers()
     create_response = requests.post(ha_config.get_tts_url(), json={'platform': ha_config.tts_engine, 'message': message, 'language': language, 'options' : {'voice': voice}}, headers=headers)
+    log(None, 'Using voice "%s"' % voice)
     if create_response.status_code != 200:
         log(None, 'Error getting tts file %r %r' % (create_response.status_code, create_response.content))
         error_file_name = os.path.join(constants.ROOT_PATH, 'sound/answer.wav')
