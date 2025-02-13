@@ -2,8 +2,8 @@
 
 export TMP_URL=~/tmp/ha-plugins-next
 export REPO_URL=https://github.com/dirtyharryiv/ha-plugins
-export NEXT_REPO_URL=https://github.com/arnonym/ha-plugins-next
-export NEXT_REPO_SSH=git@github.com:arnonym/ha-plugins-next.git
+export NEXT_REPO_URL=https://github.com/dirtyharryiv/ha-plugins-next
+export NEXT_REPO_SSH=git@github.com:dirtyharryiv/ha-plugins-next.git
 
 if [ -z "$DOCKER_HUB_PASSWORD" ]
   then
