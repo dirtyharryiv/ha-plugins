@@ -391,6 +391,7 @@ class Call(pj.Call):
 
     def play_message(self, message: str, language: str, voice: str, should_cache: bool, wait_for_audio_to_finish: bool) -> None:
         log(self.account.config.index, 'Playing message: %s' % message)
+        log(self.account.config.index, 'Playing with voice: %s' % voice)
         cached_file = audio_cache.get_cached_file(should_cache, self.ha_config.cache_dir, 'message', message)
         if cached_file:
             self.set_current_playback({'type': 'message', 'message': message})
