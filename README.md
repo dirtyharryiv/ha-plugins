@@ -31,6 +31,7 @@ sip_global:
     log_level: 5 # log level of pjsip library
     name_server: '' # comma separated list of name servers, must be set if sip server must be resolved via SRV record
     cache_dir: '/config/audio_cache' # directory to cache TTS messages or converted audio files. Must be inside /config and existing
+    call_recordings_dir: '/config/call_recordings' # directory to store call recordings. Must be inside /config and existing
     global_options: ''
 sip:
     enabled: true

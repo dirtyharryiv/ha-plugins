@@ -11,6 +11,7 @@ PORT = os.environ.get('PORT', '')
 LOG_LEVEL = os.environ.get('LOG_LEVEL', '')
 NAME_SERVER = os.environ.get('NAME_SERVER', '')
 CACHE_DIR = os.environ.get('CACHE_DIR', '')
+CALL_RECORDINGS_DIR = os.environ.get('CALL_RECORDINGS_DIR', '')
 GLOBAL_OPTIONS = os.environ.get('GLOBAL_OPTIONS', '')
 
 SIP1_ENABLED = os.environ.get('SIP1_ENABLED', '')

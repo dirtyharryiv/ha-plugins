@@ -4,6 +4,7 @@ export PORT="$(bashio::config 'sip_global.port')"
 export LOG_LEVEL="$(bashio::config 'sip_global.log_level')"
 export NAME_SERVER="$(bashio::config 'sip_global.name_server')"
 export CACHE_DIR="$(bashio::config 'sip_global.cache_dir')"
+export CALL_RECORDINGS_DIR="$(bashio::config 'sip_global.call_recordings_dir')"
 export GLOBAL_OPTIONS="$(bashio::config 'sip_global.global_options')"
 
 export SIP1_ENABLED="$(bashio::config 'sip.enabled')"

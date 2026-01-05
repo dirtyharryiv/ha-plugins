@@ -62,10 +62,22 @@ def get_cache_dir(raw_cache_dir: str) -> Optional[str]:
     return raw_cache_dir
 
 
+def get_call_recordings_dir(raw_recordings_dir: str) -> Optional[str]:
+    if not raw_recordings_dir:
+        log(None, 'No call recordings directory configured.')
+        return None
+    if not os.path.isdir(raw_recordings_dir):
+        log(None, 'Error: Call recordings directory not found.')
+        return None
+    log(None, "Found call recordings directory '%s'" % raw_recordings_dir)
+    return raw_recordings_dir
+
+
 def main():
     global_options = options_global.parse_global_options(config.GLOBAL_OPTIONS)
     name_server = get_name_server(config.NAME_SERVER)
     cache_dir = get_cache_dir(config.CACHE_DIR)
+    call_recordings_dir = get_call_recordings_dir(config.CALL_RECORDINGS_DIR)
     endpoint_config = sip.MyEndpointConfig(
         port=utils.convert_to_int(config.PORT, 5060),
         log_level=utils.convert_to_int(config.LOG_LEVEL, 5),
@@ -123,7 +135,15 @@ def main():
         'voice': config.TTS_VOICE,
         'debug_print': config.TTS_DEBUG_PRINT,
     }
-    ha_config = ha.HaConfig(config.HA_BASE_URL, config.HA_WEBSOCKET_URL, config.HA_TOKEN, tts_config_from_env, config.HA_WEBHOOK_ID, cache_dir)
+    ha_config = ha.HaConfig(
+        config.HA_BASE_URL,
+        config.HA_WEBSOCKET_URL,
+        config.HA_TOKEN,
+        tts_config_from_env,
+        config.HA_WEBHOOK_ID,
+        cache_dir,
+        call_recordings_dir,
+    )
     if ha_config.tts_config['debug_print']:
         asyncio.run(ha.print_tts_providers(ha_config))
     call_state = state.create()

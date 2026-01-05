@@ -146,7 +146,16 @@ class TtsConfig(TypedDict):
 
 
 class HaConfig(object):
-    def __init__(self, base_url: str, websocket_url: str, token: str, tts_config: TtsConfigFromEnv, webhook_id: str, cache_dir: Optional[str]):
+    def __init__(
+        self,
+        base_url: str,
+        websocket_url: str,
+        token: str,
+        tts_config: TtsConfigFromEnv,
+        webhook_id: str,
+        cache_dir: Optional[str],
+        call_recordings_dir: Optional[str],
+    ):
         self.base_url = base_url
         self.websocket_url = websocket_url
         self.token = token
@@ -167,6 +176,7 @@ class HaConfig(object):
             log(None, f"TTS: Using platform {self.tts_config['platform']} with language {self.tts_config['language']} with voice {self.tts_config['voice']}")
         self.webhook_id = webhook_id
         self.cache_dir = cache_dir
+        self.call_recordings_dir = call_recordings_dir
 
     def create_headers(self) -> Dict[str, str]:
         return {
