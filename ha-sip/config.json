@@ -21,7 +21,6 @@
             "log_level": 5,
             "name_server": "",
             "cache_dir": "",
-            "call_recordings_dir": "",
             "global_options": ""
         },
         "sip": {
@@ -77,7 +76,6 @@
             "log_level": "int",
             "name_server": "str",
             "cache_dir": "str",
-            "call_recordings_dir": "str",
             "global_options": "str"
         },
         "sip": {

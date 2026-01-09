@@ -31,7 +31,6 @@ sip_global:
     log_level: 5 # log level of pjsip library
     name_server: '' # comma separated list of name servers, must be set if sip server must be resolved via SRV record
     cache_dir: '/config/audio_cache' # directory to cache TTS messages or converted audio files. Must be inside /config and existing
-    call_recordings_dir: '/config/call_recordings' # directory to store call recordings. Must be inside /config and existing
     global_options: ''
 sip:
     enabled: true
@@ -246,6 +245,32 @@ data:
     addon: c7744bff_ha-sip
     input:
         command: stop_playback
+        number: sip:**620@fritz.box
+```
+
+#### To start a call recording
+
+```yaml
+service: hassio.addon_stdin
+data:
+    addon: c7744bff_ha-sip
+    input:
+        command: start_recording
+        number: sip:**620@fritz.box
+        recording_file: "/config/call_recordings/call_2024-01-01.wav" # must be an absolute path
+```
+
+> **Note:**
+> The recording is stopped when the call ends.
+
+#### To stop a call recording
+
+```yaml
+service: hassio.addon_stdin
+data:
+    addon: c7744bff_ha-sip
+    input:
+        command: stop_recording
         number: sip:**620@fritz.box
 ```
 

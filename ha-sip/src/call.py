@@ -131,6 +131,8 @@ class Call(pj.Call):
         self.audio_media: Optional[pj.AudioMedia] = None
         self.recorder: Optional[pj.AudioMediaRecorder] = None
         self.recording_file: Optional[str] = None
+        self.recording_requested = False
+        self.requested_recording_filename: Optional[str] = None
         self.connected = False
         self.current_input = ''
         self.end_point = end_point
@@ -302,23 +304,8 @@ class Call(pj.Call):
             if media.type == pj.PJMEDIA_TYPE_AUDIO and (media.status == pj.PJSUA_CALL_MEDIA_ACTIVE or media.status == pj.PJSUA_CALL_MEDIA_REMOTE_HOLD):
                 log(self.account.config.index, 'Connected media %s' % media.status)
                 self.audio_media = self.getAudioMedia(media_index)
-                if self.audio_media and not self.recorder:
-                    recording_dir = self.ha_config.call_recordings_dir
-                    if not recording_dir:
-                        log(self.account.config.index, 'Call recordings directory not configured. Skipping recording.')
-                        return
-                    self.recorder = pj.AudioMediaRecorder()
-                    record_filename = os.path.join(recording_dir, 'call_%s_%s.wav' % (self.account.config.index, int(time.time())))
-                    try:
-                        self.recorder.createRecorder(record_filename)
-                        self.audio_media.startTransmit(self.recorder)
-                        self.account.getAudioMedia().startTransmit(self.recorder)
-                    except Exception as e:
-                        log(self.account.config.index, 'Error starting call recording: %s' % e)
-                        self.stop_recording()
-                        return
-                    self.recording_file = record_filename
-                    log(self.account.config.index, 'Call recording started: %s' % record_filename)
+                if self.recording_requested and not self.recorder:
+                    self.start_recording(self.requested_recording_filename)
 
     def onDtmfDigit(self, prm: pj.OnDtmfDigitParam) -> None:
         if not self.playback_is_done and self.wait_for_audio_to_finish:
@@ -497,7 +484,43 @@ class Call(pj.Call):
                 self.player = None
             self.playback_is_done = True
 
+    def start_recording(self, record_filename: Optional[str]) -> None:
+        if self.recorder:
+            log(self.account.config.index, 'Recording is already active.')
+            return
+        if not record_filename:
+            log(self.account.config.index, 'Error: recording_file must be provided and absolute.')
+            return
+        if not os.path.isabs(record_filename):
+            log(self.account.config.index, 'Error: recording_file must be an absolute path.')
+            return
+        if not self.audio_media:
+            log(self.account.config.index, 'Audio media not connected yet. Recording will start once media is available.')
+            self.recording_requested = True
+            self.requested_recording_filename = record_filename
+            return
+        self.recording_requested = False
+        self.requested_recording_filename = None
+        target_file = record_filename
+        target_dir = os.path.dirname(target_file) or '.'
+        if not os.path.isdir(target_dir):
+            log(self.account.config.index, 'Call recordings directory not found: %s' % target_dir)
+            return
+        self.recorder = pj.AudioMediaRecorder()
+        try:
+            self.recorder.createRecorder(target_file)
+            self.audio_media.startTransmit(self.recorder)
+            self.account.getAudioMedia().startTransmit(self.recorder)
+        except Exception as e:
+            log(self.account.config.index, 'Error starting call recording: %s' % e)
+            self.stop_recording()
+            return
+        self.recording_file = target_file
+        log(self.account.config.index, 'Call recording started: %s' % target_file)
+
     def stop_recording(self) -> None:
+        self.recording_requested = False
+        self.requested_recording_filename = None
         if not self.recorder:
             return
         try:
