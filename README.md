@@ -475,6 +475,7 @@ to identify the call in your automations.
     "caller": "<sip:5551234456@fritz.box>",
     "parsed_caller": "5551234456",
     "sip_account": 1,
+    "recording_file": "/config/call_recordings/call_2024-01-01.wav",
     "internal_id": "something-unique"
 }
 ```
