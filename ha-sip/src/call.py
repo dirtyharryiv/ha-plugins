@@ -279,7 +279,6 @@ class Call(pj.Call):
             self.call_settled_at = time.time() + self.settle_time
         elif ci.state == pj.PJSIP_INV_STATE_DISCONNECTED:
             log(self.account.config.index, 'Call disconnected')
-            recording_file = self.recording_file
             self.stop_recording()
             self.trigger_webhook({
                 'event': 'call_disconnected',
@@ -288,7 +287,6 @@ class Call(pj.Call):
                 'sip_account': self.account.config.index,
                 'call_id': self.call_info['call_id'],
                 'internal_id': self.callback_id,
-                'recording_file': recording_file,
             })
             self.connected = False
             self.current_input = ''
@@ -512,7 +510,7 @@ class Call(pj.Call):
         self.recording_requested = False
         self.requested_recording_filename = None
         target_file = record_filename
-        target_dir = os.path.dirname(target_file) or '.'
+        target_dir = os.path.dirname(target_file)
         if not os.path.isdir(target_dir):
             log(self.account.config.index, 'Call recordings directory not found: %s' % target_dir)
             return
@@ -526,6 +524,15 @@ class Call(pj.Call):
             return
         self.recording_file = target_file
         log(self.account.config.index, 'Call recording started: %s' % target_file)
+        self.trigger_webhook({
+            'event': 'recording_started',
+            'caller': self.call_info['remote_uri'],
+            'parsed_caller': self.call_info['parsed_caller'],
+            'sip_account': self.account.config.index,
+            'call_id': self.call_info['call_id'],
+            'recording_file': self.recording_file,
+            'internal_id': self.callback_id,
+        })
 
     def stop_recording(self) -> None:
         self.recording_requested = False
@@ -539,6 +546,15 @@ class Call(pj.Call):
             log(self.account.config.index, 'Error stopping call recording: %s' % e)
         if self.recording_file:
             log(self.account.config.index, 'Call recording stopped: %s' % self.recording_file)
+            self.trigger_webhook({
+                'event': 'recording_stopped',
+                'caller': self.call_info['remote_uri'],
+                'parsed_caller': self.call_info['parsed_caller'],
+                'sip_account': self.account.config.index,
+                'call_id': self.call_info['call_id'],
+                'recording_file': self.recording_file,
+                'internal_id': self.callback_id,
+            })
         self.recorder = None
         self.recording_file = None
 
