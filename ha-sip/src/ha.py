@@ -146,15 +146,7 @@ class TtsConfig(TypedDict):
 
 
 class HaConfig(object):
-    def __init__(
-        self,
-        base_url: str,
-        websocket_url: str,
-        token: str,
-        tts_config: TtsConfigFromEnv,
-        webhook_id: str,
-        cache_dir: Optional[str],
-    ):
+    def __init__(self, base_url: str, websocket_url: str, token: str, tts_config: TtsConfigFromEnv, webhook_id: str, cache_dir: Optional[str]):
         self.base_url = base_url
         self.websocket_url = websocket_url
         self.token = token
