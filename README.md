@@ -257,7 +257,7 @@ data:
     input:
         command: start_recording
         number: sip:**620@fritz.box
-        recording_file: "/config/call_recordings/call_2024-01-01.wav" # must be an absolute path
+        recording_file: "/config/www/call_12345.wav" # must be an absolute path
 ```
 
 > **Note:**
@@ -475,7 +475,6 @@ to identify the call in your automations.
     "caller": "<sip:5551234456@fritz.box>",
     "parsed_caller": "5551234456",
     "sip_account": 1,
-    "recording_file": "/config/call_recordings/call_2024-01-01.wav",
     "internal_id": "something-unique"
 }
 ```
@@ -529,6 +528,34 @@ to identify the call in your automations.
     "parsed_caller": "5551234456",
     "sip_account": 1,
     "menu_id": "main",
+    "internal_id": "something-unique"
+}
+```
+
+### `recording_started`
+
+```json
+{
+    "event": "recording_started",
+    "caller": "<sip:5551234456@fritz.box>",
+    "parsed_caller": "5551234456",
+    "sip_account": 1,
+    "call_id": "5a42f2-54c5ba548-c545b54-554d55216",
+    "recording_file": "/config/www/call_12345.wav",
+    "internal_id": "something-unique"
+}
+```
+
+### `recording_stopped`
+
+```json
+{
+    "event": "recording_stopped",
+    "caller": "<sip:5551234456@fritz.box>",
+    "parsed_caller": "5551234456",
+    "sip_account": 1,
+    "call_id": "5a42f2-54c5ba548-c545b54-554d55216",
+    "recording_file": "/config/www/call_12345.wav",
     "internal_id": "something-unique"
 }
 ```
