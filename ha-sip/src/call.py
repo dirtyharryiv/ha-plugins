@@ -494,7 +494,7 @@ class Call(pj.Call):
             try:
                 self.audio_media.startTransmit(self.recorder)
             except Exception as e:
-                log(self.account.config.index, f'Could not reattach recorder: {e}')
+                log(self.account.config.index, f'Error: Could not reattach recorder: {e}')
             return
         if not record_filename:
             log(self.account.config.index, 'Error: recording_file must be provided and absolute')
@@ -512,14 +512,14 @@ class Call(pj.Call):
         target_file = record_filename
         target_dir = os.path.dirname(target_file)
         if not os.path.isdir(target_dir):
-            log(self.account.config.index, 'Call recordings directory not found: %s' % target_dir)
+            log(self.account.config.index, 'Error: Call recordings directory not found: %s' % target_dir)
             return
         self.recorder = pj.AudioMediaRecorder()
         try:
             self.recorder.createRecorder(target_file)
             self.audio_media.startTransmit(self.recorder)
         except Exception as e:
-            log(self.account.config.index, 'Error starting call recording: %s' % e)
+            log(self.account.config.index, 'Error: Failed to start call recording: %s' % e)
             self.stop_recording()
             return
         self.recording_file = target_file
@@ -543,7 +543,7 @@ class Call(pj.Call):
             if self.audio_media:
                 self.audio_media.stopTransmit(self.recorder)
         except Exception as e:
-            log(self.account.config.index, 'Error stopping call recording: %s' % e)
+            log(self.account.config.index, 'Error: Failed to stop call recording: %s' % e)
         if self.recording_file:
             log(self.account.config.index, 'Call recording stopped: %s' % self.recording_file)
             self.trigger_webhook({
